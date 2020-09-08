@@ -1,26 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import Navbar from './components/Navbar';
+import UsersPage from './pages/UsersPage';
+import AlbumsPage from './pages/AlbumsPage';
+import AlbumPage from './pages/AlbumPage';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <BrowserRouter>
+    <Navbar />
+    <Switch>
+      <Route exact path={["", "/users"]} component={UsersPage} />
+      <Route exact path="/albums" component={AlbumsPage} />
+      <Route exact path="/albums/:id" component={AlbumPage} />
+    </Switch>
+  </BrowserRouter>
+)
 
 export default App;
