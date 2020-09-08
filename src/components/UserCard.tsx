@@ -1,20 +1,26 @@
-import React from "react";
-import User from "../models/User";
+import React, { useContext, useState } from "react";
 import {
     Grid,
     Card,
     CardHeader,
     CardContent,
     makeStyles,
-    Link
+    Link,
+    CardActions,
+    Collapse,
+    Button,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Checkbox
 } from "@material-ui/core";
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from '@material-ui/icons/Phone';
 import LanguageIcon from '@material-ui/icons/Language';
-
-type UserCardProps = {
-    user: User;
-};
+import UserContext from "../contexts/UserContext";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 const useStyle = makeStyles((theme) => ({
     cardHeader: {
@@ -25,12 +31,21 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const UserCard = (props: UserCardProps) => {
-    const {
-        user: { name, username, email, phone, website },
-    } = props;
+const UserCard = () => {
+    
+    const { name, username, email, phone, website, todos, loadTodos } = useContext(UserContext);
 
     const classes = useStyle();
+
+    const [showTodos, setShowTodos] = useState(false);
+
+    const toggleShowTodos = () => {
+        if(!showTodos && !todos) {
+            loadTodos().then(() => setShowTodos(true));
+        } else {
+            setShowTodos(showTodos => !showTodos);
+        }
+    }
 
     return (
         <Card raised>
@@ -69,6 +84,27 @@ const UserCard = (props: UserCardProps) => {
                     </Grid>
                 </Grid>
             </CardContent>
+            <CardActions>
+                <Button onClick={toggleShowTodos} endIcon={showTodos ? <ExpandLessIcon /> : <ExpandMoreIcon />}>
+                    Todos
+                </Button>
+            </CardActions>
+            {todos ? (
+                <Collapse in={showTodos} timeout="auto" unmountOnExit>
+                <CardContent className={classes.cardContent}>
+                    <List>
+                    {todos.map(todo => (
+                        <ListItem key={todo.id}>
+                            <ListItemIcon>
+                                <Checkbox checked={todo.completed} />
+                            </ListItemIcon>
+                            <ListItemText primary={todo.title} />
+                        </ListItem>
+                    ))}
+                    </List>
+                </CardContent>
+            </Collapse>
+            ) : null}
         </Card>
     );
 };

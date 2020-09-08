@@ -1,5 +1,6 @@
-type Photo = {
-    id: number,
+import DomainEntity from "./DomainEntity";
+
+type Photo = DomainEntity & {
     title: string,
     url: string,
     thumbnailUrl: string

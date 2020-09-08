@@ -1,8 +1,8 @@
 import Address from "./Address";
 import Company from "./Company";
+import DomainEntity from "./DomainEntity";
 
-type User = {
-    id: number,
+type User = DomainEntity & {
     name: string,
     username: string,
     email: string,

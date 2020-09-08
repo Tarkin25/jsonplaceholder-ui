@@ -3,6 +3,7 @@ import User from '../models/User'
 import UserService from '../services/UserService';
 import {Container, Grid} from '@material-ui/core';
 import UserCard from '../components/UserCard';
+import { UserContextProvider } from '../contexts/UserContext';
 
 const UsersPage = () => {
 
@@ -19,7 +20,9 @@ const UsersPage = () => {
             <Grid container direction="row" spacing={2}>
                 {users.map(user => (
                     <Grid key={user.id} item xl={4}>
-                        <UserCard user={user} />
+                        <UserContextProvider user={user}>
+                            <UserCard />
+                        </UserContextProvider>
                     </Grid>
                 ))}
             </Grid>

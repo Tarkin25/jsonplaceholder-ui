@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import UsersPage from './pages/UsersPage';
 import AlbumsPage from './pages/AlbumsPage';
 import AlbumPage from './pages/AlbumPage';
+import TodosPage from './pages/TodosPage';
 
 const App = () => (
   <BrowserRouter>
@@ -12,6 +13,7 @@ const App = () => (
       <Route exact path={["", "/users"]} component={UsersPage} />
       <Route exact path="/albums" component={AlbumsPage} />
       <Route exact path="/albums/:id" component={AlbumPage} />
+      <Route exact path="/todos" component={TodosPage} />
     </Switch>
   </BrowserRouter>
 )
