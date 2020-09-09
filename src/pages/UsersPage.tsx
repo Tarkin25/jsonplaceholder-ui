@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import User from '../models/User'
-import UserService from '../services/UserService';
 import {Container, Grid} from '@material-ui/core';
 import UserCard from '../components/UserCard';
 import { UserContextProvider } from '../contexts/UserContext';
+import { RootState } from '../store/rootReducer';
+import { loadUsers } from '../store/user/userActions';
+import { useSelector } from 'react-redux';
+import useThunkDispatch from '../hooks/useThunkDispatch';
+
+const usersSelector: (state: RootState) => User[] = state => Object.values(state.users.byId)
+const loadedSelector: (state: RootState) => boolean = state => state.users.loaded
 
 const UsersPage = () => {
 
-    const [users, setUsers] = useState<User[]>([]);
+    const users = useSelector(usersSelector);
+    const loaded = useSelector(loadedSelector);
+    const dispatch = useThunkDispatch();
 
     useEffect(() => {
-        UserService.findAll().then(res => {
-            setUsers(res.data);
-        });
-    }, []);
+        if(!loaded) {
+            dispatch(loadUsers());
+        }
+    }, [dispatch, loaded])
 
     return (
         <Container>
@@ -29,5 +37,6 @@ const UsersPage = () => {
         </Container>
     )
 }
+
 
 export default UsersPage

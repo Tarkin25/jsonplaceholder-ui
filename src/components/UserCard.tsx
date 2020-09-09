@@ -33,15 +33,15 @@ const useStyle = makeStyles((theme) => ({
 
 const UserCard = () => {
     
-    const { name, username, email, phone, website, todos, loadTodos } = useContext(UserContext);
+    const { name, username, email, phone, website, todos } = useContext(UserContext);
 
     const classes = useStyle();
 
     const [showTodos, setShowTodos] = useState(false);
 
     const toggleShowTodos = () => {
-        if(!showTodos && !todos) {
-            loadTodos().then(() => setShowTodos(true));
+        if(!showTodos && !todos.loaded) {
+            todos.load().then(() => setShowTodos(true));
         } else {
             setShowTodos(showTodos => !showTodos);
         }
@@ -93,7 +93,7 @@ const UserCard = () => {
                 <Collapse in={showTodos} timeout="auto" unmountOnExit>
                 <CardContent className={classes.cardContent}>
                     <List>
-                    {todos.map(todo => (
+                    {todos.values.map(todo => (
                         <ListItem key={todo.id}>
                             <ListItemIcon>
                                 <Checkbox checked={todo.completed} />

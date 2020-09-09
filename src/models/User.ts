@@ -12,4 +12,4 @@ type User = DomainEntity & {
     company: Company
 }
 
-export default User;
+export default User
