@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import Todo from '../models/Todo'
-import TodoService from '../services/TodoService';
+import React from 'react'
 import {Container, List, ListItem} from '@material-ui/core';
 import TodoCard from '../components/TodoCard';
+import { RootState } from '../store/rootReducer';
+import { useSelector } from 'react-redux';
+import withRenderTime from '../high-order/withRenderTime';
 
 const TodosPage = () => {
 
-    const [todos, setTodos] = useState<Todo[]>([]);
-
-    useEffect(() => {
-        TodoService.findAll().then(res => {
-            setTodos(res.data);
-        })
-    }, []);
+    const todoIds = useSelector((state: RootState) => state.entities.todos.allIds.slice(0, 10));
 
     return (
         <Container>
             <List>
-                {todos.map(todo => (
-                    <ListItem key={todo.id}>
-                        <TodoCard todo={todo} />
+                {todoIds.map(id => (
+                    <ListItem key={id}>
+                        <TodoCard id={id} />
                     </ListItem>
                 ))}
             </List>
@@ -27,4 +22,4 @@ const TodosPage = () => {
     )
 }
 
-export default TodosPage
+export default withRenderTime(TodosPage)

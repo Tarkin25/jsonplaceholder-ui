@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
     Grid,
     Card,
@@ -18,9 +18,18 @@ import {
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from '@material-ui/icons/Phone';
 import LanguageIcon from '@material-ui/icons/Language';
-import UserContext from "../contexts/UserContext";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import User from "../models/User";
+import { useSelector, shallowEqual } from "react-redux";
+import { RootState } from "../store/rootReducer";
+import Todo from "../models/Todo";
+import withRenderTime from "../high-order/withRenderTime";
+import {createSelector} from 'reselect';
+
+type UserCardProps = {
+    id: string
+}
 
 const useStyle = makeStyles((theme) => ({
     cardHeader: {
@@ -31,21 +40,26 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const UserCard = () => {
-    
-    const { name, username, email, phone, website, todos } = useContext(UserContext);
+const getTodosByUserId = (state: RootState, id: string) => Object.values(state.entities.todos.byId).filter(todo => todo.userId.toString() === id)
+
+const selectTodosByUserId = createSelector(
+    getTodosByUserId,
+    todos => todos
+)
+
+const UserCard = (props: UserCardProps) => {
+
+    const {id} = props;
+
+    const {name, username, email, phone, website} = useSelector((state: RootState) => state.entities.users.byId[id]);
+
+    const todos = useSelector((state: RootState) => selectTodosByUserId(state, id));
 
     const classes = useStyle();
 
     const [showTodos, setShowTodos] = useState(false);
 
-    const toggleShowTodos = () => {
-        if(!showTodos && !todos.loaded) {
-            todos.load().then(() => setShowTodos(true));
-        } else {
-            setShowTodos(showTodos => !showTodos);
-        }
-    }
+    const toggleShowTodos = () => setShowTodos(showTodos => !showTodos)
 
     return (
         <Card raised>
@@ -90,10 +104,10 @@ const UserCard = () => {
                 </Button>
             </CardActions>
             {todos ? (
-                <Collapse in={showTodos} timeout="auto" unmountOnExit>
+                <Collapse in={showTodos} unmountOnExit>
                 <CardContent className={classes.cardContent}>
                     <List>
-                    {todos.values.map(todo => (
+                    {todos.map(todo => (
                         <ListItem key={todo.id}>
                             <ListItemIcon>
                                 <Checkbox checked={todo.completed} />
