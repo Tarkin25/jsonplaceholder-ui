@@ -1,4 +1,3 @@
-import { UserActionType } from "./entity/user/userActionTypes"
 import DomainEntity from "../models/DomainEntity"
 
 export type StringMap<V> = {

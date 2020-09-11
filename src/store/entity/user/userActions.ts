@@ -2,7 +2,7 @@ import User from "../../../models/User";
 import { UserActionType, SET_USERS } from "./userActionTypes";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../rootReducer";
-import UserService from "../../../services/UserService";
+import userService from "../../../services/userService";
 
 export const setUsers: (users: User[]) => UserActionType = (users) => ({
     type: SET_USERS,
@@ -17,7 +17,7 @@ export const fetchUsers: () => ThunkAction<
     void,
     UserActionType
 > = () => async (dispatch) => {
-    UserService.findAll().then((res) => {
+    userService.findAll().then((res) => {
         dispatch(setUsers(res.data));
     });
 };

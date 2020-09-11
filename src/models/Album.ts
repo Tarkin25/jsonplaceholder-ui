@@ -1,12 +1,8 @@
-import Photo from "./Photo";
 import DomainEntity from "./DomainEntity";
 
-export type AlbumBase = DomainEntity & {
+type Album = DomainEntity & {
+    userId: number
     title: string
-}
-
-type Album = AlbumBase & {
-    thumbnail: Photo
 }
 
 export default Album;

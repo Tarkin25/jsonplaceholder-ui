@@ -1,11 +1,9 @@
 import Todo from "../models/Todo";
-import {AxiosResponse} from 'axios';
-import api from "../config/api";
+import { Service, ServiceImpl } from "./serviceGenerics";
+interface TodoService extends Service<Todo> {
 
-const findAll: () => Promise<AxiosResponse<Todo[]>> = async () => api.get<Todo[]>("/todos")
-
-const TodoService = {
-    findAll
 }
 
-export default TodoService;
+const todoService: TodoService = new ServiceImpl("/todos")
+
+export default todoService

@@ -1,32 +1,10 @@
-import api from "../config/api";
-import Album, { AlbumBase } from "../models/Album";
-import Photo from '../models/Photo';
-import { AxiosResponse } from 'axios';
+import Album from "../models/Album";
+import { Service, ServiceImpl } from "./serviceGenerics";
 
-const findAll: () => Promise<AxiosResponse<Album[]>> = async () => {
-    const response = await api.get<AlbumBase[]>("/albums");
-
-    return {
-        ...response,
-        data: await Promise.all(response.data.map(async albumBase => {
-            const photos = await getPhotos(albumBase.id);
-
-            return {
-                ...albumBase,
-                thumbnail: photos.data[0]
-            }
-        }))
-    }
+interface AlbumService extends Service<Album> {
+    
 }
 
-const findById: (id: number) => Promise<AxiosResponse<AlbumBase>> = id => api.get<AlbumBase>(`/albums/${id}`)
+const albumService: AlbumService = new ServiceImpl("/albums")
 
-const getPhotos: (id: number) => Promise<AxiosResponse<Photo[]>> = id => api.get<Photo[]>(`/albums/${id}/photos`)
-
-const AlbumService = {
-    findAll,
-    findById,
-    getPhotos
-}
-
-export default AlbumService;
+export default albumService

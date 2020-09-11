@@ -1,8 +1,6 @@
 import React from 'react'
-import Todo from '../models/Todo'
 import { Card, CardContent, Checkbox, Typography, makeStyles } from '@material-ui/core';
 import { RootState } from '../store/rootReducer';
-import {createSelector} from 'reselect';
 import { useSelector } from 'react-redux';
 
 type TodoCardProps = {

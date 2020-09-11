@@ -20,11 +20,8 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import LanguageIcon from '@material-ui/icons/Language';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import User from "../models/User";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
-import Todo from "../models/Todo";
-import withRenderTime from "../high-order/withRenderTime";
 import {createSelector} from 'reselect';
 
 type UserCardProps = {

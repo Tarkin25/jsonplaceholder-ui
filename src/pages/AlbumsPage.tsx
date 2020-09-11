@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {Container, Grid} from '@material-ui/core';
 import Album from '../models/Album';
-import AlbumService from '../services/AlbumService';
+import AlbumService from '../services/albumService';
 import AlbumCard from '../components/AlbumCard';
 
 const AlbumsPage = () => {

@@ -2,7 +2,6 @@ import React from "react";
 import {
     Card,
     CardContent,
-    CardMedia,
     CardActionArea,
     Typography,
     makeStyles,
@@ -38,10 +37,6 @@ const AlbumCard = (props: AlbumCardProps) => {
         <Card raised>
             <Link className={classes.link} variant="body1" color="inherit" href={`/albums/${album.id}`}>
                 <CardActionArea>
-                    <CardMedia
-                        image={album.thumbnail.thumbnailUrl}
-                        className={classes.thumbnail}
-                    />
                     <CardContent className={classes.cardContent}>
                         <Typography variant="body1">{album.title}</Typography>
                     </CardContent>

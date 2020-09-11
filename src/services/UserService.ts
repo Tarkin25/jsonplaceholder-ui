@@ -1,22 +1,10 @@
-import api from "../config/api";
 import User from "../models/User";
-import Todo from "../models/Todo";
-import { AlbumBase } from "../models/Album";
-import Post from "../models/Post";
+import { Service, ServiceImpl } from "./serviceGenerics";
 
-const findAll = () => api.get<User[]>("/users");
+interface UserService extends Service<User> {
 
-const getTodos = (id: number) => api.get<Todo[]>(`/users/${id}/todos`)
-
-const getAlbums = (id: number) => api.get<AlbumBase[]>(`/users/${id}/albums`)
-
-const getPosts = (id: number) => api.get<Post[]>(`/users/${id}/posts`)
-
-const UserService = {
-    findAll,
-    getTodos,
-    getAlbums,
-    getPosts
 }
 
-export default UserService;
+const userService: UserService = new ServiceImpl("/users");
+
+export default userService;
