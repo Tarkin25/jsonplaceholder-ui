@@ -23,6 +23,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import {createSelector} from 'reselect';
+import { selectUserById } from "../store/entity/user/userSelectors";
 
 type UserCardProps = {
     id: string
@@ -46,9 +47,9 @@ const selectTodosByUserId = createSelector(
 
 const UserCard = (props: UserCardProps) => {
 
-    const {id} = props;
+    const {id} = props
 
-    const {name, username, email, phone, website} = useSelector((state: RootState) => state.entities.users.byId[id]);
+    const {name, username, email, phone, website} = useSelector(selectUserById(props));
 
     const todos = useSelector((state: RootState) => selectTodosByUserId(state, id));
 

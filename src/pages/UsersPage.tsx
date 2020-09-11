@@ -1,13 +1,13 @@
 import React from 'react'
 import {Container, Grid} from '@material-ui/core';
 import UserCard from '../components/UserCard';
-import { RootState } from '../store/rootReducer';
 import { useSelector } from 'react-redux';
 import withRenderTime from '../high-order/withRenderTime';
+import { selectUserIds } from '../store/entity/user/userSelectors';
 
 const UsersPage = () => {
 
-    const userIds = useSelector((state: RootState) => state.entities.users.allIds);
+    const userIds = useSelector(selectUserIds);
 
     return (
         <Container>
